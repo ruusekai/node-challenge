@@ -56,3 +56,7 @@ The command above will run the following test suites sequentially:
 
 
 Happy hacking 😁!
+
+
+## Thought Process
+1. fixed some files causing error when running yarn test / yarn test:acceptance
