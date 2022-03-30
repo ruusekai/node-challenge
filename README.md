@@ -60,3 +60,4 @@ Happy hacking 😁!
 
 ## Thought Process
 1. fixed some files causing error when running yarn test / yarn test:acceptance
+2. added empty endpoint GET /expense/v1/get-user-expenses
