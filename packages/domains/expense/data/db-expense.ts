@@ -4,25 +4,16 @@ import { GetUserExpensesRspDto, PaginateDto } from '../types';
 export async function readExpenses(filters, sortBy, sortDirection, page, limit): Promise<GetUserExpensesRspDto> {
   const offset = (limit * page) - limit;
 
-  // map all filter as prepared statements
-  const filterKeyList = Object.keys(filters);
-  let filterQuery = filterKeyList.length === 0 ? '' : 'WHERE ';
-  let counter = 1;
-  filterKeyList.forEach(function(key) {
-    filterQuery += `${key} = $${counter} `;
-    if (counter < filterKeyList.length) {
-      filterQuery += 'AND ';
-    }
-    counter = counter + 1;
-  });
   // console.log('exactFilterQuery: ', filterQuery);
+  const filterKeyList = Object.keys(filters);
+  const filterQuery = getFilterPreparedStatement(filterKeyList);
 
   // select and count query for pagination
   const [selectResult, countResult] = await Promise.all([
     query(
       `SELECT * FROM expenses ${filterQuery}
     ORDER BY ${sortBy} ${sortDirection}
-    LIMIT $${counter} OFFSET $${counter + 1}`,
+    LIMIT $${filterKeyList.length + 1} OFFSET $${filterKeyList.length + 2}`,
       Object.values(filters).concat([limit, offset])
     ),
     query(
@@ -41,4 +32,21 @@ export async function readExpenses(filters, sortBy, sortDirection, page, limit):
     expenses: selectResult.rows,
     paginate: paginateDto,
   };
+}
+
+// map all filter as prepared statements
+export function getFilterPreparedStatement(filterKeyList) {
+  if (filterKeyList.length === 0) {
+    return '';
+  }
+  let filterQuery = 'WHERE ';
+  let counter = 1;
+  filterKeyList.forEach(function(key) {
+    filterQuery += `${key} = $${counter} `;
+    if (counter < filterKeyList.length) {
+      filterQuery += 'AND ';
+    }
+    counter = counter + 1;
+  });
+  return filterQuery;
 }
