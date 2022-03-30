@@ -1,25 +1,18 @@
-// import { format } from './formatter';
-import { readExpensesByUserId } from './data/db-expense';
+import { readExpenses } from './data/db-expense';
 import { to } from '@nc/utils/async';
-import { Expense } from './types';
-import { BadRequest, InternalError, NotFound } from '@nc/utils/errors';
+import { GetUserExpensesRspDto } from './types';
+import { BadRequest, InternalError } from '@nc/utils/errors';
 
-export async function getExpensesByUserId(userId): Promise<Expense> {
-  if (!userId) {
+export async function getExpenses(filters, sortBy, sortDirection, page, limit): Promise<GetUserExpensesRspDto> {
+  if (!filters.user_id) {
     throw BadRequest('userId property is missing.');
   }
 
-  const [dbError, rawExpenses] = await to(readExpensesByUserId(userId));
+  const [dbError, expensesWithPagination] = await to(readExpenses(filters, sortBy, sortDirection, page, limit));
 
   if (dbError) {
     throw InternalError(`Error fetching data from the DB: ${dbError.message}`);
   }
 
-  // remarks: I commented this error case as it is normal to have no expenses for a user for most use case
-  // if (!rawExpenses) {
-  //   throw NotFound(`Could not find expenses with user_id ${userId}`);
-  // }
-
-  return rawExpenses;
-  // return format(rawExpenses);
+  return expensesWithPagination;
 }

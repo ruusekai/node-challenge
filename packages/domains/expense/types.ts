@@ -7,3 +7,15 @@ export interface Expense {
   date_created: Date
   status: string
 }
+
+export interface PaginateDto {
+  totalItems: number
+  limit: number
+  totalPages: number
+  currentPage: number
+}
+
+export interface GetUserExpensesRspDto {
+  expenses: Expense[]
+  paginate: PaginateDto
+}
