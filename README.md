@@ -60,4 +60,5 @@ Happy hacking 😁!
 
 ## Thought Process
 1. fixed some files causing error when running yarn test / yarn test:acceptance
-2. added empty endpoint GET /expense/v1/get-user-expenses
+2. added new route for endpoint GET /expense/v1/get-user-expenses
+3. added db model to make the endpoint works without pagination
