@@ -66,3 +66,25 @@ Happy hacking 😁!
 5. added test case for formatter and db helper functions
 6. add validation for query params
 7. added range filtering for amount_in_cents, modify unit tests
+8. added documentation and sample request
+
+## Documentation
+GET /expense/v1/get-user-expenses
+
+| Query Param | Description                                                                                                                      |
+-------------|----------------------------------------------------------------------------------------------------------------------------------|
+| userId      | required                                                                                                                         |                                                             |
+| limit   | limit items per page. Default 10                                                                                                 |
+| page | page number. default 1                                                                                                           |
+| sortBy   | the column to sort by (accept `'merchant_name', 'amount_in_cents', 'currency', 'date_created', 'status'`) default `date_created` |
+| sortDirection | sort direction (accept `'ASC', 'DESC'`), default `DESC`                                                                          |
+| merchantName | filter merchant_name which exact match                                                                                           |
+| status | filter status which exact match                                                                                                  |
+| currency | filter currency which exact match                                                                                                |
+| amountInCents-min | filter amount_in_cents which larger than this number                                                                             |
+| amountInCents-max | filter amount_in_cents which smaller than this number                                                                            |
+
+sample
+```bash
+curl --location --request GET 'localhost:9001/expense/v1/get-user-expenses?userId=da140a29-ae80-4f0e-a62d-6c2d2bc8a474&merchantName=Sliders&status=processed&currency=DKK&amountInCents-min=1000&amountInCents-max=10000&sortBy=merchant_name&sortDirection=ASC&limit=2&page=1'
+```
