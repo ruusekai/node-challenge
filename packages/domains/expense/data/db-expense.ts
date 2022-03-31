@@ -1,4 +1,5 @@
 import { query } from '@nc/utils/db';
+import { RangeAttribute } from '../enums';
 import { GetUserExpensesRspDto, PaginateDto } from '../types';
 
 export async function readExpenses(filters, sortBy, sortDirection, page, limit): Promise<GetUserExpensesRspDto> {
@@ -41,7 +42,18 @@ export function getFilterPreparedStatement(filterKeyList) {
   let filterQuery = 'WHERE ';
   let counter = 1;
   filterKeyList.forEach(function(key) {
-    filterQuery += `${key} = $${counter} `;
+    if (key.includes('-')) {
+      // range filters
+      const keySplit = key.split('-');
+      if (keySplit[1] === RangeAttribute.MIN) {
+        filterQuery += `${keySplit[0]} >= $${counter} `;
+      } else if (keySplit[1] === RangeAttribute.MAX) {
+        filterQuery += `${keySplit[0]} <= $${counter} `;
+      }
+    } else {
+      // exact filters
+      filterQuery += `${key} = $${counter} `;
+    }
     if (counter < filterKeyList.length) {
       filterQuery += 'AND ';
     }

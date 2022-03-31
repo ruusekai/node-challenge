@@ -14,4 +14,11 @@ describe('[Packages | Expense-domain | Db-expenses] getFilterPreparedStatement',
     ))
       .toEqual('');
   });
+
+  test('getFilterPreparedStatement should prepare a WHERE-clause with >= / <= operators if it is a range filter', () => {
+    return expect(getFilterPreparedStatement(
+      ['merchant_name', 'amount_in_cents-max', 'amount_in_cents-min']
+    ))
+      .toEqual('WHERE merchant_name = $1 AND amount_in_cents <= $2 AND amount_in_cents >= $3 ');
+  });
 });

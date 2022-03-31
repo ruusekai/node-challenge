@@ -65,3 +65,4 @@ Happy hacking 😁!
 4. added paging, sorting and exact value filtering
 5. added test case for formatter and db helper functions
 6. add validation for query params
+7. added range filtering for amount_in_cents, modify unit tests

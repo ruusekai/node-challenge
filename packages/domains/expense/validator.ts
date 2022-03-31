@@ -26,6 +26,18 @@ export function validateQuery() {
       if (req.query?.sortDirection && !enumCheck(req.query?.sortDirection, SortDirection)) {
         throw BadRequest('sortDirection property is with invalid input.');
       }
+      if (req.query?.limit && isNaN(req.query?.limit)) {
+        throw BadRequest('limit property should be number.');
+      }
+      if (req.query?.page && isNaN(req.query?.page)) {
+        throw BadRequest('page property should be number.');
+      }
+      if (req.query?.['amount_in_cents-min'] && isNaN(req.query?.['amount_in_cents-min'])) {
+        throw BadRequest('amount_in_cents-min property should be number.');
+      }
+      if (req.query?.['amount_in_cents-max'] && isNaN(req.query?.['amount_in_cents-max'])) {
+        throw BadRequest('amount_in_cents-max property should be number.');
+      }
     } catch (e) {
       next(BadRequest(`validation error: ${e.message}`, req));
     }
@@ -34,6 +46,7 @@ export function validateQuery() {
   };
 }
 
+// return true if it is enum of correct type
 export function enumCheck(str, enumType) {
   if (!Object.values(enumType).includes(str)) {
     return false;

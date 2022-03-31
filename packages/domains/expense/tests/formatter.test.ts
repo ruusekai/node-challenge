@@ -19,7 +19,20 @@ describe('[Packages | Expense-domain | Formatter] camelToSnackCase', () => {
 
 describe('[Packages | Expense-domain | Formatter] inputSecureTrim', () => {
   test('inputSecureTrim should filter out invalid query params, and return query params with snack case key', () => {
-    return expect(inputSecureTrim({ merchantName: 'Sliders', currency: 'DKK', invalidField: 'testing', invalid_field_two: 2 }))
-      .toEqual({ merchant_name: 'Sliders', currency: 'DKK' });
+    return expect(inputSecureTrim(
+      { merchantName: 'Sliders',
+        currency: 'DKK',
+        'amountInCents-min': 100,
+        'amountInCents-max': 10000,
+        invalidField: 'testing',
+        invalid_field_two: 2,
+        'invalidField-max': 100,
+      }
+    ))
+      .toEqual({
+        merchant_name: 'Sliders',
+        currency: 'DKK',
+        'amount_in_cents-min': 100,
+        'amount_in_cents-max': 10000 });
   });
 });
