@@ -1,6 +1,4 @@
-const exactFilterFields =
-  ['merchant_name', 'currency', 'user_id', 'status'];
-const exactFilterSet = new Set(exactFilterFields);
+const exactFilterSet = new Set(['merchant_name', 'currency', 'user_id', 'status']);
 
 export function camelToSnackCase(str: string): string {
   return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);

@@ -1,3 +1,5 @@
+import { ExpenseStatus } from './enums';
+
 export interface Expense {
   id: string
   merchant_name: string
@@ -5,7 +7,7 @@ export interface Expense {
   currency: string
   user_id: string
   date_created: Date
-  status: string
+  status: ExpenseStatus
 }
 
 export interface PaginateDto {

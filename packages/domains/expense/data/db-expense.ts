@@ -4,7 +4,6 @@ import { GetUserExpensesRspDto, PaginateDto } from '../types';
 export async function readExpenses(filters, sortBy, sortDirection, page, limit): Promise<GetUserExpensesRspDto> {
   const offset = (limit * page) - limit;
 
-  // console.log('exactFilterQuery: ', filterQuery);
   const filterKeyList = Object.keys(filters);
   const filterQuery = getFilterPreparedStatement(filterKeyList);
 

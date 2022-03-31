@@ -64,3 +64,4 @@ Happy hacking 😁!
 3. added db model to make the endpoint works without pagination first
 4. added paging, sorting and exact value filtering
 5. added test case for formatter and db helper functions
+6. add validation for query params
